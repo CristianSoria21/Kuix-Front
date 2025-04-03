@@ -16,7 +16,7 @@ const MaintenanceComingSoon = Loadable(lazy(() => import('pages/maintenance/comi
 const MaintenanceComingSoon2 = Loadable(lazy(() => import('pages/maintenance/coming-soon/coming-soon2')));
 
 // render - sample page
-const SamplePage = Loadable(lazy(() => import('pages/extra-pages/sample-page')));
+const ClietsPage = Loadable(lazy(() => import('pages/clients/clients-page')));
 const ContactUS = Loadable(lazy(() => import('pages/contact-us')));
 
 // ==============================|| MAIN ROUTES ||============================== //
@@ -29,8 +29,8 @@ const MainRoutes = {
       element: <DashboardLayout />,
       children: [
         {
-          path: 'sample-page',
-          element: <SamplePage />
+          path: 'clients',
+          element: <ClietsPage />
         }
       ]
     },

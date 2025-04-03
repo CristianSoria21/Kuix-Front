@@ -1,12 +1,13 @@
 // assets
-import { Book1, I24Support, Security, MessageProgramming } from 'iconsax-react';
+import { Book1, I24Support, Security, MessageProgramming, Profile2User } from 'iconsax-react';
 
 // icons
 const icons = {
   page: Book1,
   authentication: Security,
   maintenance: MessageProgramming,
-  contactus: I24Support
+  contactus: I24Support,
+  clients: Profile2User
 };
 
 // ==============================|| MENU ITEMS - PAGES ||============================== //
@@ -17,54 +18,11 @@ const pages = {
   type: 'group',
   children: [
     {
-      id: 'authentication',
-      title: 'authentication',
-      type: 'collapse',
-      icon: icons.authentication,
-      children: [
-        {
-          id: 'login',
-          title: 'login',
-          type: 'item',
-          url: '/auth/login',
-          target: true
-        },
-        {
-          id: 'register',
-          title: 'register',
-          type: 'item',
-          url: '/auth/register',
-          target: true
-        },
-        {
-          id: 'forgot-password',
-          title: 'forgot-password',
-          type: 'item',
-          url: '/auth/forgot-password',
-          target: true
-        },
-        {
-          id: 'reset-password',
-          title: 'reset-password',
-          type: 'item',
-          url: '/auth/reset-password',
-          target: true
-        },
-        {
-          id: 'check-mail',
-          title: 'check-mail',
-          type: 'item',
-          url: '/auth/check-mail',
-          target: true
-        },
-        {
-          id: 'code-verification',
-          title: 'code-verification',
-          type: 'item',
-          url: '/auth/code-verification',
-          target: true
-        }
-      ]
+      id: 'clients',
+      title: 'Clients',
+      type: 'item',
+      icon: icons.clients,
+      url: '/clients',
     },
     {
       id: 'maintenance',

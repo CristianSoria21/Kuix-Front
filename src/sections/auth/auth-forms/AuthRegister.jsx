@@ -108,9 +108,9 @@ export default function AuthRegister() {
               alert: { color: 'success' }
             });
 
-            setTimeout(() => {
-              navigate('/dashboard/default', { replace: true });
-            }, 1500);
+            // setTimeout(() => {
+            //   navigate('/dashboard/default', { replace: true });
+            // }, 1500);
           }
         } catch (err) {
           console.error(err);
