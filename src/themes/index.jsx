@@ -20,6 +20,7 @@ import getWindowScheme from 'utils/getWindowScheme';
 
 export default function ThemeCustomization({ children }) {
   const { themeDirection, mode, presetColor, fontFamily, themeContrast } = useConfig();
+ 
   let themeMode = mode;
   if (themeMode === ThemeMode.AUTO) {
     const autoMode = getWindowScheme();

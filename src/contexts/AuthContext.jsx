@@ -5,12 +5,15 @@ import axios from 'utils/axios';
 import Loader from 'components/Loader';
 const AuthContext = createContext(null);
 
-const setSession = (accessToken) => {
+const setSession = (accessToken, apiKey) => {
   if (accessToken) {
     localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('apiKey', apiKey);
+
     axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
   } else {
     localStorage.removeItem('accessToken');
+    localStorage.removeItem('apiKey', apiKey);
     delete axios.defaults.headers.common.Authorization;
   }
 };
@@ -50,8 +53,8 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password, remember_me = false) => {
     try {
       const response = await axios.post('/api/auth/login', { email, password, remember_me });
-      const { access_token: accessToken, ...userData } = response.data;
-      setSession(accessToken);
+      const { access_token: accessToken, api_key: apiKey, ...userData } = response.data;
+      setSession(accessToken, apiKey);
       dispatch({ type: LOGIN, payload: { isLoggedIn: true, userData } });
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
@@ -71,8 +74,8 @@ export const AuthProvider = ({ children }) => {
         password,
         repeatPassword
       });
-      const { access_token: accessToken, ...userData } = response.data;
-      setSession(accessToken);
+      const { access_token: accessToken, api_key: apiKey, ...userData } = response.data;
+      setSession(accessToken, apiKey);
       dispatch({ type: LOGIN, payload: { isLoggedIn: true, userData } });
     } catch (error) {
       console.error('Error al registrar usuario:', error);
