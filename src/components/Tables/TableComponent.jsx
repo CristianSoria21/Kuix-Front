@@ -24,7 +24,7 @@ export function TableComponent({ data, columns }) {
   });
 
   return (
-    <MainCard title="Tabla con paginación" content={false}>
+    <MainCard content={false}>
       <Stack>
         <TableContainer>
           <Table>
@@ -43,9 +43,7 @@ export function TableComponent({ data, columns }) {
               {table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id}>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </TableCell>
+                    <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
                   ))}
                 </TableRow>
               ))}

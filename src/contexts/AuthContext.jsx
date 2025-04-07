@@ -2,6 +2,8 @@ import React, { createContext, useEffect, useReducer } from 'react';
 import { LOGIN, LOGOUT } from 'contexts/auth-reducer/actions';
 import authReducer from 'contexts/auth-reducer/auth';
 import axios from 'utils/axios';
+import { fetcher } from 'utils/axios';
+import useSWR from 'swr';
 import Loader from 'components/Loader';
 const AuthContext = createContext(null);
 
@@ -17,8 +19,11 @@ const setSession = (accessToken, apiKey) => {
     delete axios.defaults.headers.common.Authorization;
   }
 };
-
 export const AuthProvider = ({ children }) => {
+  const { data, error, isLoading } = useSWR('/api/me', fetcher, {
+    revalidateOnFocus: false,
+    refreshInterval: 0
+  });
   const [state, dispatch] = useReducer(authReducer, {
     isLoggedIn: false,
     isInitialized: false,
@@ -26,29 +31,12 @@ export const AuthProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    const init = async () => {
-      try {
-        const accessToken = localStorage.getItem('accessToken');
-        if (accessToken) {
-          setSession(accessToken);
-
-          // * AQUI DEBE DE IR UNA API QUE RECIBA EL TOKEN Y CORROBORE QUE ESTE CON SESION ACTIVA PARA REGRSAR SU INFORMACION Y MOSTARLA
-          // const response = await axios.get('account/me');
-          // dispatch({ type: LOGIN, payload: { isLoggedIn: true, user: response.data.user } });
-          dispatch({
-            type: LOGIN,
-            payload: { isLoggedIn: true, user: { name: 'CRISTIAN SORIA', email: 'cristiansora2009@gmail.com', phone: '3531682550' } }
-          });
-        } else {
-          dispatch({ type: LOGOUT });
-        }
-      } catch (err) {
-        console.error('Error en la autenticación:', err);
-        dispatch({ type: LOGOUT });
-      }
-    };
-    init();
-  }, []);
+    if (data) {
+      dispatch({ type: LOGIN, payload: { user: data } });
+    } else if (error) {
+      dispatch({ type: LOGOUT });
+    }
+  }, [data, error]);
 
   const login = async (email, password, remember_me = false) => {
     try {

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosServices = axios.create({
-  baseURL: import.meta.env.VITE_APP_API_URL || 'http://localhost:3000/'
+  baseURL: import.meta.env.VITE_APP_API_URL
 });
 
 // ==============================|| INTERCEPTORES DE AXIOS ||============================== //
