@@ -27,7 +27,7 @@ const initialState = {
   actionButton: false,
   maxStack: 3,
   dense: false,
-  iconVariant: 'usedefault'
+  iconVariant: 'error'
 };
 
 export function useGetSnackbar() {
@@ -76,6 +76,39 @@ export function closeSnackbar() {
     endpoints.key,
     (currentSnackbar) => {
       return { ...currentSnackbar, open: false };
+    },
+    false
+  );
+}
+
+export function handlerIncrease(maxStack) {
+  // to update local state based on key
+  mutate(
+    endpoints.key,
+    (currentSnackbar) => {
+      return { ...currentSnackbar, maxStack };
+    },
+    false
+  );
+}
+
+export function handlerDense(dense) {
+  // to update local state based on key
+  mutate(
+    endpoints.key,
+    (currentSnackbar) => {
+      return { ...currentSnackbar, dense };
+    },
+    false
+  );
+}
+
+export function handlerIconVariants(iconVariant) {
+  // to update local state based on key
+  mutate(
+    endpoints.key,
+    (currentSnackbar) => {
+      return { ...currentSnackbar, iconVariant, hideIconVariant: iconVariant === 'hide' };
     },
     false
   );

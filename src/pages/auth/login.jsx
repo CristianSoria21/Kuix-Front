@@ -31,17 +31,20 @@ export default function Login() {
           <Grid container spacing={1}>
             <Grid size={12}>
               <AuthSocButton>
-                <CardMedia component="img" src={imgFacebook} alt="Facebook" sx={{ my: 0, mx: 1.25, width: 'auto' }} /> Sign In with Facebook
+                <CardMedia component="img" src={imgFacebook} alt="Facebook" sx={{ my: 0, mx: 1.25, width: 'auto' }} />{' '}
+                Sign In with Facebook
               </AuthSocButton>
             </Grid>
             <Grid size={12}>
               <AuthSocButton>
-                <CardMedia component="img" src={imgTwitter} alt="Facebook" sx={{ my: 0, mx: 1.25, width: 'auto' }} /> Sign In with Twitter
+                <CardMedia component="img" src={imgTwitter} alt="Facebook" sx={{ my: 0, mx: 1.25, width: 'auto' }} />{' '}
+                Sign In with Twitter
               </AuthSocButton>
             </Grid>
             <Grid size={12}>
               <AuthSocButton>
-                <CardMedia component="img" src={imgGoogle} alt="Facebook" sx={{ my: 0, mx: 1.25, width: 'auto' }} /> Sign In with Google
+                <CardMedia component="img" src={imgGoogle} alt="Facebook" sx={{ my: 0, mx: 1.25, width: 'auto' }} />{' '}
+                Sign In with Google
               </AuthSocButton>
             </Grid>
           </Grid>
@@ -52,9 +55,18 @@ export default function Login() {
           </AuthDivider>
         </Grid>
         <Grid size={12}>
-          <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'baseline', mb: { xs: -0.5, sm: 0.5 } }}>
+          <Stack
+            direction="row"
+            sx={{ justifyContent: 'space-between', alignItems: 'baseline', mb: { xs: -0.5, sm: 0.5 } }}
+          >
             <Typography variant="h3">Iniciar sesión</Typography>
-            <Typography component={Link} to={'/auth/register'} variant="body1" sx={{ textDecoration: 'none' }} color="primary">
+            <Typography
+              component={Link}
+              to={'/auth/register'}
+              variant="body1"
+              sx={{ textDecoration: 'none' }}
+              color="primary"
+            >
               ¿No tienes una cuenta? Regístrate
             </Typography>
           </Stack>

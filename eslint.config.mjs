@@ -58,7 +58,7 @@ export default [
         'warn',
         {
           bracketSpacing: true,
-          printWidth: 140,
+          printWidth: 120,
           singleQuote: true,
           trailingComma: 'none',
           tabWidth: 2,

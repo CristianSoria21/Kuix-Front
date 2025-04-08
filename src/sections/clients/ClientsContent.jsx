@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { TableComponent } from '../../components/Tables/TableComponent';
-import { getClients } from '../../api/clientApi';
+import { getClients } from 'hooks/api/useClients';
 
 const ClientsContent = () => {
   const [data, setData] = useState([]);

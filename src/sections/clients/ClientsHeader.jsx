@@ -1,28 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Button, TextField } from '@mui/material';
+import { UserAdd } from 'iconsax-react';
+import Grid from '@mui/material/Grid2';
+import AddClientsDialog from './AddClientsDialog';
 
 const ClientsHeader = () => {
+  const [openDialog, setOpenDialog] = useState(false);
+
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem', backgroundColor: '#f5f5f5' }}>
-      <button
-        style={{
-          padding: '0.5rem 1rem',
-          backgroundColor: '#007bff',
-          color: '#fff',
-          border: 'none',
-          borderRadius: '4px',
-          cursor: 'pointer'
-        }}
-        onClick={() => alert('Crear cliente')}
-      >
-        Crear Cliente
-      </button>
-      <input
-        type="text"
-        placeholder="Buscar clientes..."
-        style={{ padding: '0.5rem', width: '300px', border: '1px solid #ccc', borderRadius: '4px' }}
-        onChange={(e) => console.log('Buscando:', e.target.value)}
-      />
-    </div>
+    <>
+      <Grid container spacing={2} mb={2} alignItems="center" justifyContent="space-between">
+        <Grid size={8}>
+          <TextField id="outlined-basic-fullwidth" label="Buscar Clientes" fullWidth />
+        </Grid>
+        <Grid size={4} display="flex" justifyContent="flex-end">
+          <Button variant="shadow" startIcon={<UserAdd />} onClick={() => setOpenDialog(true)}>
+            Agregar Cliente
+          </Button>
+        </Grid>
+      </Grid>
+
+      <AddClientsDialog open={openDialog} onClose={() => setOpenDialog(false)} />
+    </>
   );
 };
 

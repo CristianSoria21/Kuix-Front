@@ -109,6 +109,12 @@ function Transitions({ children, position = 'top-left', type = 'grow', direction
 
 export default forwardRef(Transitions);
 
+// ==============================|| POPUP / DIALOG - TRANSITIONS ||============================== //
+
+export const PopupTransition = forwardRef(function Transition(props, ref) {
+  return <Zoom ref={ref} timeout={200} {...props} />;
+});
+
 Transitions.propTypes = {
   children: PropTypes.node,
   position: PropTypes.string,

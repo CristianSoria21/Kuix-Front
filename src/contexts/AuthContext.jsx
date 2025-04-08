@@ -47,7 +47,6 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
       throw error;
-      s;
     }
   };
 

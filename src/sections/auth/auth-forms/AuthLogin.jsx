@@ -29,7 +29,6 @@ import useScriptRef from 'hooks/useScriptRef';
 // Utils y assets
 import { Eye, EyeSlash } from 'iconsax-react';
 
-
 export default function AuthLogin({ forgot }) {
   const { isLoggedIn, login } = useAuth();
   const scriptedRef = useScriptRef();
@@ -142,7 +141,12 @@ export default function AuthLogin({ forgot }) {
                     label={<Typography variant="h6">Mantener inicio de sesión</Typography>}
                   />
 
-                  <Link variant="h6" component={RouterLink} to={isLoggedIn && forgot ? forgot : '/forgot-password'} color="text.primary">
+                  <Link
+                    variant="h6"
+                    component={RouterLink}
+                    to={isLoggedIn && forgot ? forgot : '/forgot-password'}
+                    color="text.primary"
+                  >
                     Has olvidado tu contraseña?
                   </Link>
                 </Stack>
@@ -156,7 +160,15 @@ export default function AuthLogin({ forgot }) {
 
               <Grid size={12}>
                 <AnimateButton>
-                  <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="primary">
+                  <Button
+                    disableElevation
+                    disabled={isSubmitting}
+                    fullWidth
+                    size="large"
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                  >
                     Iniciar sesión
                   </Button>
                 </AnimateButton>

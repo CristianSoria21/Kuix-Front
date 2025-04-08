@@ -100,7 +100,7 @@ export default function AuthRegister() {
           );
           if (scriptedRef.current) {
             setStatus({ success: true });
-            setSubmitting(false);
+            setSubmitting(true);
             openSnackbar({
               open: true,
               message: 'Su registro se ha completado exitosamente.',
@@ -273,7 +273,9 @@ export default function AuthRegister() {
                   }
                 />
               </Stack>
-              {touched.repeatPassword && errors.repeatPassword && <FormHelperText error>{errors.repeatPassword}</FormHelperText>}
+              {touched.repeatPassword && errors.repeatPassword && (
+                <FormHelperText error>{errors.repeatPassword}</FormHelperText>
+              )}
             </Grid>
 
             <Grid size={12}>
@@ -310,7 +312,15 @@ export default function AuthRegister() {
             )}
             <Grid size={12}>
               <AnimateButton>
-                <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="primary">
+                <Button
+                  disableElevation
+                  disabled={isSubmitting}
+                  fullWidth
+                  size="large"
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                >
                   Crear Cuenta
                 </Button>
               </AnimateButton>
