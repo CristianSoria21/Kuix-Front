@@ -4,14 +4,14 @@ import { UserAdd } from 'iconsax-react';
 import Grid from '@mui/material/Grid2';
 import AddClientsDialog from './AddClientsDialog';
 
-const ClientsHeader = () => {
+const ClientsHeader = ({ tableRefresh }) => {
   const [openDialog, setOpenDialog] = useState(false);
 
   return (
     <>
       <Grid container spacing={2} mb={2} alignItems="center" justifyContent="space-between">
         <Grid size={8}>
-          <TextField id="outlined-basic-fullwidth" label="Buscar Clientes" fullWidth />
+          <TextField id="outlined-basic-fullwidth" label="Buscar Clientes" fullWidth disabled={true} />
         </Grid>
         <Grid size={4} display="flex" justifyContent="flex-end">
           <Button variant="shadow" startIcon={<UserAdd />} onClick={() => setOpenDialog(true)}>
@@ -20,7 +20,7 @@ const ClientsHeader = () => {
         </Grid>
       </Grid>
 
-      <AddClientsDialog open={openDialog} onClose={() => setOpenDialog(false)} />
+      <AddClientsDialog open={openDialog} onClose={() => setOpenDialog(false)} tableRefresh={tableRefresh} />
     </>
   );
 };

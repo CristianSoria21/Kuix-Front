@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -8,12 +8,10 @@ import {
   Button,
   Box,
   DialogContentText,
-  MenuItem,
-  Experimental_CssVarsProvider
+  MenuItem
 } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { Formik, Form } from 'formik';
-import LoadingButton from '@mui/lab/LoadingButton';
 import useSWR from 'swr';
 
 //project-imports
@@ -23,54 +21,53 @@ import { clientValidationSchema } from 'utils/validations/clientValidation';
 import { fetcher } from 'utils/axios';
 import { validateRFC } from '../../hooks/api/useOthers';
 
-const AddClientsDialog = ({ open, onClose, onAddClient }) => {
-  const formikRef = useRef();
-
-  const {
-    data: regimes,
-    error: regimesError,
-    isLoading
-  } = useSWR('api/tools/regimes', fetcher, {
+const AddClientsDialog = ({ open, onClose, tableRefresh }) => {
+  const { data: regimes, error: regimesError } = useSWR('api/tools/regimes', fetcher, {
     revalidateOnFocus: false,
     refreshInterval: 0
   });
 
   return (
-    <Dialog
-      open={open}
-      TransitionComponent={PopupTransition}
-      keepMounted
-      onClose={onClose}
-      aria-describedby="dialog-create-client"
+    <Formik
+      initialValues={{
+        legal_name: '',
+        tax_id: '',
+        tax_system: '',
+        contry: '',
+        zip: '',
+        street: '',
+        exterior: '',
+        email: '',
+        phone: '',
+        foreign: false
+      }}
+      validationSchema={clientValidationSchema}
+      onSubmit={(values, { resetForm }) => {
+        createClientFacturaApi(values).then((status) => {
+          if (status) {
+            tableRefresh();
+            resetForm();
+            onClose();
+          }
+        });
+      }}
     >
-      <Box sx={{ p: 1, py: 1.5 }}>
-        <DialogTitle>Creación de nuevo Cliente</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="dialog-create-client">
-            Por favor completa los datos del cliente correctamente.
-          </DialogContentText>
-
-          <Formik
-            innerRef={formikRef}
-            initialValues={{
-              legal_name: '',
-              tax_id: '',
-              tax_system: '',
-              contry: '',
-              zip: '',
-              street: '',
-              exterior: '',
-              email: '',
-              phone: '',
-              foreign: false
-            }}
-            validationSchema={clientValidationSchema}
-            onSubmit={(values, { resetForm }) => {
-              createClientFacturaApi(values).then((status) => status && (onClose(), resetForm()));
-            }}
+      {({ values, errors, touched, handleChange, handleBlur }) => (
+        <Form autoComplete="on">
+          <Dialog
+            open={open}
+            TransitionComponent={PopupTransition}
+            keepMounted
+            onClose={onClose}
+            aria-describedby="dialog-create-client"
           >
-            {({ values, errors, touched, handleChange, handleBlur }) => (
-              <Form autoComplete="on">
+            <Box sx={{ p: 1, py: 1.5 }}>
+              <DialogTitle>CREAR NUEVO CLIENTE</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="dialog-create-client">
+                  Por favor completa los datos del cliente correctamente.
+                </DialogContentText>
+
                 <Grid container spacing={1}>
                   <Grid size={{ xs: 12, sm: 6 }}>
                     <TextField
@@ -121,11 +118,17 @@ const AddClientsDialog = ({ open, onClose, onAddClient }) => {
                       error={touched.tax_system && Boolean(errors.tax_system)}
                       helperText={touched.tax_system && errors.tax_system}
                     >
-                      {regimes?.data.map((option) => (
-                        <MenuItem key={option.id} value={option.code}>
-                          {option.code} - {option.regimen}
-                        </MenuItem>
-                      ))}
+                      {regimesError ? (
+                        <MenuItem disabled>Error al cargar regímenes</MenuItem>
+                      ) : regimes?.data?.length > 0 ? (
+                        regimes.data.map((option) => (
+                          <MenuItem key={option.id} value={option.code}>
+                            {option.code} - {option.regimen}
+                          </MenuItem>
+                        ))
+                      ) : (
+                        <MenuItem disabled>Cargando regímenes...</MenuItem>
+                      )}
                     </TextField>
                   </Grid>
 
@@ -204,21 +207,21 @@ const AddClientsDialog = ({ open, onClose, onAddClient }) => {
                     />
                   </Grid>
                 </Grid>
-              </Form>
-            )}
-          </Formik>
-        </DialogContent>
+              </DialogContent>
 
-        <DialogActions>
-          <Button color="error" onClick={onClose}>
-            Cancelar
-          </Button>
-          <Button variant="contained" onClick={() => formikRef.current?.submitForm()}>
-            Guardar
-          </Button>
-        </DialogActions>
-      </Box>
-    </Dialog>
+              <DialogActions>
+                <Button color="error" onClick={onClose}>
+                  Cancelar
+                </Button>
+                <Button variant="contained" type="submit">
+                  Guardar
+                </Button>
+              </DialogActions>
+            </Box>
+          </Dialog>
+        </Form>
+      )}
+    </Formik>
   );
 };
 
