@@ -5,23 +5,10 @@ import ClientsContent from '../../sections/clients/ClientsContent';
 import { getClients } from 'hooks/api/useClients';
 
 export default function ClientsPage() {
-  const [tableState, setTableState] = useState({
-    data: [],
-    columns: [],
-    loading: true
-  });
+  const [clientsData, setClientsData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const fetchData = async () => {
-    setTableState((prev) => ({ ...prev, loading: true }));
-    const response = await getClients();
-    if (response) {
-      setTableState({
-        data: response.data,
-        columns: response.columns,
-        loading: false
-      });
-    }
-  };
+  const fetchData = async () => getClients(setClientsData, setLoading);
 
   useEffect(() => {
     fetchData();
@@ -30,7 +17,7 @@ export default function ClientsPage() {
   return (
     <MainCard title="Página de Clientes">
       <ClientsHeader tableRefresh={fetchData} />
-      <ClientsContent tableState={tableState} />
+      <ClientsContent clientsData={clientsData} loading={loading} tableRefresh={fetchData} />
     </MainCard>
   );
 }

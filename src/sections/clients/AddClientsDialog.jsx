@@ -15,7 +15,7 @@ import { Formik, Form } from 'formik';
 import useSWR from 'swr';
 
 //project-imports
-import { createClientFacturaApi } from '../../hooks/api/useClients';
+import { createClient } from '../../hooks/api/useClients';
 import { PopupTransition } from 'components/@extended/Transitions';
 import { clientValidationSchema } from 'utils/validations/clientValidation';
 import { fetcher } from 'utils/axios';
@@ -43,7 +43,7 @@ const AddClientsDialog = ({ open, onClose, tableRefresh }) => {
       }}
       validationSchema={clientValidationSchema}
       onSubmit={(values, { resetForm }) => {
-        createClientFacturaApi(values).then((status) => {
+        createClient(values).then((status) => {
           if (status) {
             tableRefresh();
             resetForm();
