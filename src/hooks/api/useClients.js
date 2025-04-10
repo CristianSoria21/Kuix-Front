@@ -85,9 +85,9 @@ export const deleteClient = async (id) => {
   }
 };
 
-export const editClient = async (id) => {
+export const editClient = async (values) => {
   try {
-    const response = await axiosServices.post(`/api/client/delete/${id}`, { key });
+    const response = await axiosServices.post('api/client/edit', { key, client: values });
     const { status, message } = response.data;
 
     enqueueSnackbar(message, {

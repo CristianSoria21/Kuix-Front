@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -15,59 +15,65 @@ import { Formik, Form } from 'formik';
 import useSWR from 'swr';
 
 //project-imports
-import { createClient } from '../../hooks/api/useClients';
+import { createClient, editClient } from '../../hooks/api/useClients';
 import { PopupTransition } from 'components/@extended/Transitions';
 import { clientValidationSchema } from 'utils/validations/clientValidation';
 import { fetcher } from 'utils/axios';
 import { validateRFC } from '../../hooks/api/useOthers';
 
-const AddClientsDialog = ({ open, onClose, tableRefresh }) => {
-  const { data: regimes, error: regimesError } = useSWR('api/tools/regimes', fetcher, {
+const ClientsDialog = ({ open, onClose, tableRefresh, clientToEdit }) => {
+  const formikRef = useRef();
+
+  const { data: regimes } = useSWR('api/tools/regimes', fetcher, {
     revalidateOnFocus: false,
     refreshInterval: 0
   });
 
   return (
-    <Formik
-      initialValues={{
-        legal_name: '',
-        tax_id: '',
-        tax_system: '',
-        contry: '',
-        zip: '',
-        street: '',
-        exterior: '',
-        email: '',
-        phone: '',
-        foreign: false
-      }}
-      validationSchema={clientValidationSchema}
-      onSubmit={(values, { resetForm }) => {
-        createClient(values).then((status) => {
-          if (status) {
-            tableRefresh();
-            resetForm();
-            onClose();
-          }
-        });
-      }}
+    <Dialog
+      open={open}
+      TransitionComponent={PopupTransition}
+      keepMounted
+      onClose={onClose}
+      aria-describedby="dialog-create-client"
     >
-      {({ values, errors, touched, handleChange, handleBlur }) => (
-        <Form autoComplete="on">
-          <Dialog
-            open={open}
-            TransitionComponent={PopupTransition}
-            keepMounted
-            onClose={onClose}
-            aria-describedby="dialog-create-client"
-          >
-            <Box sx={{ p: 1, py: 1.5 }}>
-              <DialogTitle>CREAR NUEVO CLIENTE</DialogTitle>
-              <DialogContent>
-                <DialogContentText id="dialog-create-client">
-                  Por favor completa los datos del cliente correctamente.
-                </DialogContentText>
+      <Box sx={{ p: 1, py: 1.5 }}>
+        <DialogTitle>{clientToEdit ? 'EDITAR CLIENTE' : 'CREAR NUEVO CLIENTE'}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="dialog-create-client" sx={{ mb: 1.5 }}>
+            {clientToEdit ? (
+              <>
+                Editar los datos del cliente <b>{clientToEdit?.legal_name}.</b>
+              </>
+            ) : (
+              'Completa los datos del cliente correctamente.'
+            )}
+          </DialogContentText>
 
+          <Formik
+            enableReinitialize
+            innerRef={formikRef}
+            initialValues={{
+              id: clientToEdit?.id || '',
+              legal_name: clientToEdit?.legal_name || '',
+              tax_id: clientToEdit?.tax_id || '',
+              tax_system: clientToEdit?.tax_system || '',
+              country: clientToEdit?.address.country || '',
+              zip: clientToEdit?.address.zip || '',
+              street: clientToEdit?.address.street || '',
+              exterior: clientToEdit?.address.exterior || '',
+              email: clientToEdit?.email || '',
+              phone: clientToEdit?.phone || '',
+              foreign: clientToEdit?.foreign || false
+            }}
+            validationSchema={clientValidationSchema}
+            onSubmit={(values, { resetForm }) => {
+              const action = clientToEdit ? editClient : createClient;
+              action(values).then((status) => status && (onClose(), tableRefresh(), resetForm()));
+            }}
+          >
+            {({ values, errors, touched, handleChange, handleBlur }) => (
+              <Form autoComplete="on">
                 <Grid container spacing={1}>
                   <Grid size={{ xs: 12, sm: 6 }}>
                     <TextField
@@ -118,17 +124,11 @@ const AddClientsDialog = ({ open, onClose, tableRefresh }) => {
                       error={touched.tax_system && Boolean(errors.tax_system)}
                       helperText={touched.tax_system && errors.tax_system}
                     >
-                      {regimesError ? (
-                        <MenuItem disabled>Error al cargar regímenes</MenuItem>
-                      ) : regimes?.data?.length > 0 ? (
-                        regimes.data.map((option) => (
-                          <MenuItem key={option.id} value={option.code}>
-                            {option.code} - {option.regimen}
-                          </MenuItem>
-                        ))
-                      ) : (
-                        <MenuItem disabled>Cargando regímenes...</MenuItem>
-                      )}
+                      {regimes?.data.map((option) => (
+                        <MenuItem key={option.id} value={option.code}>
+                          {option.code} - {option.regimen}
+                        </MenuItem>
+                      ))}
                     </TextField>
                   </Grid>
 
@@ -207,22 +207,21 @@ const AddClientsDialog = ({ open, onClose, tableRefresh }) => {
                     />
                   </Grid>
                 </Grid>
-              </DialogContent>
-
-              <DialogActions>
-                <Button color="error" onClick={onClose}>
-                  Cancelar
-                </Button>
-                <Button variant="contained" type="submit">
-                  Guardar
-                </Button>
-              </DialogActions>
-            </Box>
-          </Dialog>
-        </Form>
-      )}
-    </Formik>
+              </Form>
+            )}
+          </Formik>
+        </DialogContent>
+        <DialogActions>
+          <Button color="error" onClick={onClose}>
+            Cancelar
+          </Button>
+          <Button variant="contained" onClick={() => formikRef.current?.submitForm()}>
+            Guardar
+          </Button>
+        </DialogActions>
+      </Box>
+    </Dialog>
   );
 };
 
-export default AddClientsDialog;
+export default ClientsDialog;

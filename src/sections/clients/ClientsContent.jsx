@@ -6,7 +6,7 @@ import { UserEdit, UserRemove } from 'iconsax-react';
 
 import { deleteClient, editClient } from '../../hooks/api/useClients';
 import { ConfirmationDialog } from 'components/ConfirmationDialog';
-
+import ClientsDialog from './ClientsDialog';
 const ClientsContent = ({ clientsData, loading, tableRefresh }) => {
   const columns = [
     {
@@ -56,12 +56,12 @@ const ClientsContent = ({ clientsData, loading, tableRefresh }) => {
         return (
           <Stack direction="column" spacing={1}>
             <Tooltip title="Editar">
-              <IconButton color="info" size="inherit" onClick={() => handleEdit(client)}>
+              <IconButton color="info" size="inherit" onClick={() => hanndleAction('edit', client)}>
                 <UserEdit size="28" variant="Bulk" />
               </IconButton>
             </Tooltip>
             <Tooltip title="Eliminar">
-              <IconButton color="error" size="inherit" onClick={() => handleDelete(client)}>
+              <IconButton color="error" size="inherit" onClick={() => hanndleAction('delete', client)}>
                 <UserRemove size="28" variant="Bulk" />
               </IconButton>
             </Tooltip>
@@ -70,17 +70,14 @@ const ClientsContent = ({ clientsData, loading, tableRefresh }) => {
       }
     }
   ];
-  const [editDialog, setEditDialog] = useState(false);
-  const [deleteDialog, setDeleteDialog] = useState(false);
+  const [openEditDialog, setOpenEditDialog] = useState(false);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [selectedClient, setSelectedClient] = useState(null);
 
-  const handleEdit = (client) => {
-    console.log('Editar cliente:', client);
-    // Tu lógica para editar aquí
-  };
-  const handleDelete = (client) => {
+  const hanndleAction = (action, client) => {
+    console.log(client);
+    action === 'edit' ? setOpenEditDialog(true) : setOpenDeleteDialog(true);
     setSelectedClient(client);
-    setDeleteDialog(true);
   };
 
   const handleConfirmDelete = () => {
@@ -88,7 +85,7 @@ const ClientsContent = ({ clientsData, loading, tableRefresh }) => {
     deleteClient(selectedClient.id).then((status) => {
       if (status) {
         tableRefresh();
-        setDeleteDialog(false);
+        setOpenDeleteDialog(false);
         setSelectedClient(null);
       }
     });
@@ -102,15 +99,24 @@ const ClientsContent = ({ clientsData, loading, tableRefresh }) => {
         <>
           <TableComponent data={clientsData} columns={columns} />
           <ConfirmationDialog
-            open={deleteDialog}
+            open={openDeleteDialog}
             titleText="¿Eliminar cliente?"
             contentText={`¿Estás seguro de que deseas eliminar al cliente "${selectedClient?.legal_name}" ?`}
             confirmationText="Eliminar"
             onClose={() => {
-              setDeleteDialog(false);
+              setOpenDeleteDialog(false);
               setSelectedClient(null);
             }}
             onConfirm={handleConfirmDelete}
+          />
+          <ClientsDialog
+            open={openEditDialog}
+            onClose={() => {
+              setOpenEditDialog(false);
+              setSelectedClient(null);
+            }}
+            tableRefresh={tableRefresh}
+            clientToEdit={selectedClient}
           />
         </>
       )}

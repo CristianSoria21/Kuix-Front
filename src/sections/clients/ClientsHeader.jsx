@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, TextField } from '@mui/material';
 import { UserAdd } from 'iconsax-react';
 import Grid from '@mui/material/Grid2';
-import AddClientsDialog from './AddClientsDialog';
+import ClientsDialog from './ClientsDialog';
 
 const ClientsHeader = ({ tableRefresh }) => {
   const [openDialog, setOpenDialog] = useState(false);
@@ -20,7 +20,7 @@ const ClientsHeader = ({ tableRefresh }) => {
         </Grid>
       </Grid>
 
-      <AddClientsDialog open={openDialog} onClose={() => setOpenDialog(false)} tableRefresh={tableRefresh} />
+      <ClientsDialog open={openDialog} onClose={() => setOpenDialog(false)} tableRefresh={tableRefresh} />
     </>
   );
 };
