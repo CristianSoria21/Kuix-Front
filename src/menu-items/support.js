@@ -1,5 +1,15 @@
 // assets
-import { OceanProtocol, Level, ShieldCross, InfoCircle, I24Support, Driving } from 'iconsax-react';
+import {
+  OceanProtocol,
+  Level,
+  ShieldCross,
+  InfoCircle,
+  I24Support,
+  Driving,
+  Book1,
+  Security,
+  MessageProgramming
+} from 'iconsax-react';
 
 // icons
 const icons = {
@@ -8,7 +18,11 @@ const icons = {
   disabledMenu: ShieldCross,
   chipMenu: InfoCircle,
   documentation: I24Support,
-  roadmap: Driving
+  roadmap: Driving,
+  page: Book1,
+  authentication: Security,
+  maintenance: MessageProgramming,
+  contactus: I24Support
 };
 
 // ==============================|| MENU ITEMS - SUPPORT ||============================== //
@@ -18,6 +32,58 @@ const support = {
   title: 'others',
   type: 'group',
   children: [
+    {
+      id: 'maintenance',
+      title: 'maintenance',
+      type: 'collapse',
+      icon: icons.maintenance,
+      children: [
+        {
+          id: 'error-404',
+          title: 'error-404',
+          type: 'item',
+          url: '/maintenance/404',
+          target: true
+        },
+        {
+          id: 'error-500',
+          title: 'error-500',
+          type: 'item',
+          url: '/maintenance/500',
+          target: true
+        },
+        {
+          id: 'coming-soon',
+          title: 'coming-soon',
+          type: 'item',
+          url: '/maintenance/coming-soon',
+          target: true
+        },
+        {
+          id: 'coming-soon-2',
+          title: 'coming-soon-2',
+          type: 'item',
+          url: '/maintenance/coming-soon-2',
+          target: true
+        },
+        {
+          id: 'under-construction',
+          title: 'under-construction',
+          type: 'item',
+          url: '/maintenance/under-construction',
+          target: true
+        }
+      ]
+    },
+    {
+      id: 'contact-us',
+      title: 'contact-us',
+      type: 'item',
+      url: '/contact-us',
+      icon: icons.contactus,
+      target: true
+    },
+
     {
       id: 'menu-level',
       title: 'menu-level',
