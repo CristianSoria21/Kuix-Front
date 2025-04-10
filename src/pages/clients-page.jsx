@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import MainCard from 'components/MainCard';
-import ClientsHeader from '../../sections/clients/ClientsHeader';
-import ClientsContent from '../../sections/clients/ClientsContent';
+import ClientsHeader from '../sections/clients/ClientsHeader';
+import ClientsContent from '../sections/clients/ClientsContent';
 import { getClients } from 'hooks/api/useClients';
 
 export default function ClientsPage() {

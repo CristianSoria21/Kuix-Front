@@ -63,8 +63,11 @@ export default function MainLayout() {
               flexDirection: 'column'
             }}
           >
-            <Breadcrumbs />
+            {/* NAVEGADOR DE RUTAS */}
+            <Breadcrumbs icons />
+            {/* CONTENIDO DE LA VENTANA */}
             <Outlet />
+            {/* FOOTER */}
             <Footer />
           </Container>
         </Box>

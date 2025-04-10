@@ -123,7 +123,11 @@ export default function Breadcrumbs({
       breadcrumbContent = (
         <MainCard
           border={card}
-          sx={card === false ? { mb: 3, bgcolor: 'transparent', borderRadius: 0, overflow: 'visible', ...sx } : { mb: 3, ...sx }}
+          sx={
+            card === false
+              ? { mb: 3, bgcolor: 'transparent', borderRadius: 0, overflow: 'visible', ...sx }
+              : { mb: 3, ...sx }
+          }
           {...others}
           content={card}
           boxShadow={false}
@@ -181,7 +185,7 @@ export default function Breadcrumbs({
       <MuiBreadcrumbs aria-label="breadcrumb" maxItems={maxItems || 8} separator={separatorIcon}>
         <Typography
           component={Link}
-          to="/"
+          to="/dashboard"
           color="text.secondary"
           variant="h6"
           sx={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}
@@ -223,7 +227,11 @@ export default function Breadcrumbs({
       breadcrumbContent = (
         <MainCard
           border={card}
-          sx={card === false ? { mb: 3, bgcolor: 'transparent', borderRadius: 0, overflow: 'visible', ...sx } : { mb: 3, ...sx }}
+          sx={
+            card === false
+              ? { mb: 3, bgcolor: 'transparent', borderRadius: 0, overflow: 'visible', ...sx }
+              : { mb: 3, ...sx }
+          }
           {...others}
           content={card}
           boxShadow={false}

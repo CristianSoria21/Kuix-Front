@@ -10,13 +10,19 @@ import SimpleLayout from 'layout/Simple';
 // pages routing
 const MaintenanceError = Loadable(lazy(() => import('pages/maintenance/error/404')));
 const MaintenanceError500 = Loadable(lazy(() => import('pages/maintenance/error/500')));
-const MaintenanceUnderConstruction = Loadable(lazy(() => import('pages/maintenance/under-construction/under-construction')));
-const MaintenanceUnderConstruction2 = Loadable(lazy(() => import('pages/maintenance/under-construction/under-construction2')));
+const MaintenanceUnderConstruction = Loadable(
+  lazy(() => import('pages/maintenance/under-construction/under-construction'))
+);
+const MaintenanceUnderConstruction2 = Loadable(
+  lazy(() => import('pages/maintenance/under-construction/under-construction2'))
+);
 const MaintenanceComingSoon = Loadable(lazy(() => import('pages/maintenance/coming-soon/coming-soon')));
 const MaintenanceComingSoon2 = Loadable(lazy(() => import('pages/maintenance/coming-soon/coming-soon2')));
 
 // render - sample page
-const ClietsPage = Loadable(lazy(() => import('pages/clients/clients-page')));
+const ClietsPage = Loadable(lazy(() => import('pages/clients-page')));
+const DashboardPage = Loadable(lazy(() => import('pages/dashboard-page')));
+
 const ContactUS = Loadable(lazy(() => import('pages/contact-us')));
 
 // ==============================|| MAIN ROUTES ||============================== //
@@ -29,7 +35,15 @@ const MainRoutes = {
       element: <DashboardLayout />,
       children: [
         {
+          path: 'dashboard',
+          element: <DashboardPage />
+        },
+        {
           path: 'clients',
+          element: <ClietsPage />
+        },
+        {
+          path: 'products',
           element: <ClietsPage />
         }
       ]

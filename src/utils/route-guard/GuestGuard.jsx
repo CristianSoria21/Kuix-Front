@@ -16,7 +16,7 @@ export default function GuestGuard({ children }) {
   useEffect(() => {
     if (isLoggedIn) {
       navigate(location?.state?.from ? location?.state?.from : APP_DEFAULT_PATH, {
-        state: { from: '/clients' },
+        state: { from: '/' },
         replace: true
       });
     }

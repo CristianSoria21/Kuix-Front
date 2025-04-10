@@ -1,5 +1,5 @@
 // assets
-import { Book1, I24Support, Security, MessageProgramming, Profile2User } from 'iconsax-react';
+import { Book1, I24Support, Security, MessageProgramming, Profile2User, Home3 } from 'iconsax-react';
 
 // icons
 const icons = {
@@ -7,7 +7,8 @@ const icons = {
   authentication: Security,
   maintenance: MessageProgramming,
   contactus: I24Support,
-  clients: Profile2User
+  clients: Profile2User,
+  dashboard: Home3
 };
 
 // ==============================|| MENU ITEMS - PAGES ||============================== //
@@ -18,11 +19,19 @@ const pages = {
   type: 'group',
   children: [
     {
+      id: 'dashboard',
+      title: 'Dashboard',
+      type: 'item',
+      icon: icons.dashboard,
+      url: '/dashboard',
+      breadcrumbs: false
+    },
+    {
       id: 'clients',
-      title: 'Clients',
+      title: 'Clientes',
       type: 'item',
       icon: icons.clients,
-      url: '/clients',
+      url: '/clients'
     },
     {
       id: 'maintenance',
