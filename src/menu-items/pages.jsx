@@ -1,5 +1,5 @@
 // assets
-import { Profile2User, Home3, MenuBoardƒ, Buildings } from 'iconsax-react';
+import { Profile2User, Home3, MenuBoard, Buildings2 } from 'iconsax-react';
 
 // icons
 const icons = {

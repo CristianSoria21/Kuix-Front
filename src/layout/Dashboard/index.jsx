@@ -49,6 +49,7 @@ export default function MainLayout() {
     <AuthGuard>
       <Box sx={{ display: 'flex', width: '100%' }}>
         <Header />
+        {/* ORIENNTACION DEL DRAWER */}
         {!isHorizontal ? <Drawer /> : <HorizontalBar />}
 
         <Box component="main" sx={{ width: `calc(100% - ${DRAWER_WIDTH}px)`, flexGrow: 1, p: { xs: 1, sm: 3 } }}>
